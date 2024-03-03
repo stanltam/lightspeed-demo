@@ -42,7 +42,7 @@
       ansible.builtin.service:
         name: nginx
         state: started
-        enabled: truec
+        enabled: true
 
     - name: Create directory /etc/nginx/certs if not present
       ansible.builtin.file:
@@ -55,6 +55,8 @@
         src: /root/prepared-keys
         dest: /etc/nginx/certs
       delegate_to: "{{ inventory_hostname }}"
+    
+
     
 
     - name: Backup /etc/nginx/nginx.conf with timestamp
