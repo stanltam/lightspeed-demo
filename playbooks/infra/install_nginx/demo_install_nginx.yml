@@ -42,7 +42,45 @@
       ansible.builtin.service:
         name: nginx
         state: started
-        enabled: true
+        enabled: truec
+
+    - name: Create directory /etc/nginx/certs if not present
+      ansible.builtin.file:
+        path: /etc/nginx/certs
+        state: directory
+        mode: 493
+
+    - name: Copy files from '/root/prepared-keys' directory to '/etc/nginx/certs' directory
+      ansible.posix.synchronize:
+        src: /root/prepared-keys
+        dest: /etc/nginx/certs
+      delegate_to: "{{ inventory_hostname }}"
+    
+
+    - name: Backup /etc/nginx/nginx.conf with timestamp
+      community.general.archive:
+        path: /etc/nginx/nginx.conf
+        dest: "{{ _dest_ }}"
+        mode: 493
+      delegate_to: "{{ inventory_hostname }}"
+    
+
+
+
+    # - name: Update to use ssl port 8443 in /etc/nginx/nginx.conf
+    #   ansible.builtin.shell: sed -i s'/listen 80/listen 443 ssl' /etc/nginx/nginx.conf
+
+
+
+
+
+
+
+
+    
+
+
+
 
 
 
