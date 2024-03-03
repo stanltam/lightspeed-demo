@@ -1,0 +1,18 @@
+---
+- name: Install and configure Cockpit
+  hosts: rhel
+  become: true
+  sudo: true
+
+  # module_defaults:
+  #   ansible.builtin.service:
+  #     enabled: true
+  #     state: started
+
+  tasks:
+        # TASK 1
+        # # 1a. Uncomment task description below and generate a task suggestion.
+        # #     Note - The suggestion included Ansible best practices by using Fully Qualified Collection name.
+    - name: echo hello
+      ansible.builtin.command: echo "hello"
+    

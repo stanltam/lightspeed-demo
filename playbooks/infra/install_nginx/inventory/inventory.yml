@@ -1,0 +1,11 @@
+---
+all:
+  children:
+    rhel:
+      hosts:
+        rhel-01:
+          ansible_host: 127.0.0.1 # Update this to your target host.
+  vars:
+    ansible_ssh_private_key_file: "/home/stanley/ansible-key" # Update this to your target host.
+    ansible_user: stanley # Update this to your target host.
+    ansible_host_key_checking: false
