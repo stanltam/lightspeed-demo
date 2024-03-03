@@ -59,24 +59,41 @@
 
     
 
-    - name: Backup nginx config
+    - name: Backup nginx config as /etc/nginx/nginx.conf.bak file
       community.general.archive:
-        path: /etc/nginx/
-        dest: /etc/nginx/nginx.conf
+        path: /etc/nginx/nginx.conf
+        dest: /etc/nginx/nginx.conf.bak
         format: gz
-      delegate_to: "{{ inventory_hostname }}"
+
+    - name: Update to use ssl port=8443 in /etc/nginx/nginx.conf 
+      ansible.builtin.lineinfile:
+        path: /etc/nginx/nginx.conf
+        regexp: ^\s*server_port(.*)$
+        line: '        server_port: 8443;'
+        backrefs: true
+
+    - name: update to use ssl cert as /etc/nginx/certs/nginx-selfsigned.crt in /etc/nginx/nginx.conf 
+      ansible.builtin.lineinfile:
+        path: /etc/nginx/nginx.conf
+        regexp: ^\s*ssl_certificate(.*)$
+        line: '        ssl_certificate: /etc/nginx/certs/default.pem;'
+        backrefs: true
+
+    - name: update to use ssl key as /etc/nginx/certs/nginx-selfsigned.key in /etc/nginx/nginx.conf
+      ansible.builtin.lineinfile:
+        path: /etc/nginx/nginx.conf
+        regexp: ^\s*ssl_certificate_key(.*)$
+        line: '        ssl_certificate_key: /etc/nginx/certs/default.pem;'
+        backrefs: true
+    
+    - name: restart nginx service
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
     
 
-
-
-
-
     
 
-
-
-    # - name: Update to use ssl port 8443 in /etc/nginx/nginx.conf
-    #   ansible.builtin.shell: sed -i s'/listen 80/listen 443 ssl' /etc/nginx/nginx.conf
 
 
 
