@@ -50,11 +50,18 @@
         state: directory
         mode: 493
 
-    - name: Copy files from '/root/prepared/certs' directory to '/etc/nginx/' directory
-      ansible.posix.synchronize:
-        src: /root/prepared-keys
+    - name: Copy all files from '/root/prepared/certs' directory to '/etc/nginx/' directory
+      ansible.builtin.copy:
+        src: /root/prepared/certs
         dest: /etc/nginx/certs
-      delegate_to: "{{ inventory_hostname }}"
+        owner: root
+        group: root
+        mode: 493
+    
+
+
+
+
     
     - name: Backup nginx config as /etc/nginx/nginx.conf.bak file
       community.general.archive:
