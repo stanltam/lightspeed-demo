@@ -44,11 +44,6 @@
         state: started
         enabled: true
 
-    - name: Create sample nginx html page 
-      ansible.builtin.copy:
-        content: <html>sample page</html>
-        dest: /var/www/html/index.html
-    
 
 
 
