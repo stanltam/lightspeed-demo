@@ -50,41 +50,25 @@
         state: directory
         mode: 493
 
-    - name: Copy files from '/root/prepared-keys' directory to '/etc/nginx/certs' directory
+    - name: Copy files from '/root/prepared/certs' directory to '/etc/nginx/' directory
       ansible.posix.synchronize:
         src: /root/prepared-keys
         dest: /etc/nginx/certs
       delegate_to: "{{ inventory_hostname }}"
     
-
-    
-
     - name: Backup nginx config as /etc/nginx/nginx.conf.bak file
       community.general.archive:
         path: /etc/nginx/nginx.conf
         dest: /etc/nginx/nginx.conf.bak
         format: gz
 
-    - name: Update to use ssl port=8443 in /etc/nginx/nginx.conf 
-      ansible.builtin.lineinfile:
-        path: /etc/nginx/nginx.conf
-        regexp: ^\s*server_port(.*)$
-        line: '        server_port: 8443;'
-        backrefs: true
-
-    - name: update to use ssl cert as /etc/nginx/certs/nginx-selfsigned.crt in /etc/nginx/nginx.conf 
-      ansible.builtin.lineinfile:
-        path: /etc/nginx/nginx.conf
-        regexp: ^\s*ssl_certificate(.*)$
-        line: '        ssl_certificate: /etc/nginx/certs/default.pem;'
-        backrefs: true
-
-    - name: update to use ssl key as /etc/nginx/certs/nginx-selfsigned.key in /etc/nginx/nginx.conf
-      ansible.builtin.lineinfile:
-        path: /etc/nginx/nginx.conf
-        regexp: ^\s*ssl_certificate_key(.*)$
-        line: '        ssl_certificate_key: /etc/nginx/certs/default.pem;'
-        backrefs: true
+    - name: Copy template from '/root/prepared/nginx.conf.ssl' directory to '/etc/nginx/nginx.conf'
+      ansible.builtin.copy:
+        src: /root/prepared/nginx.conf.ssl
+        dest: /etc/nginx/nginx.conf
+        remote_src: true
+      delegate_to: "{{ inventory_hostname }}"
+    
     
     - name: restart nginx service
       ansible.builtin.service:
