@@ -59,12 +59,18 @@
 
     
 
-    - name: Backup /etc/nginx/nginx.conf with timestamp
+    - name: Backup nginx config
       community.general.archive:
-        path: /etc/nginx/nginx.conf
-        dest: "{{ _dest_ }}"
-        mode: 493
+        path: /etc/nginx/
+        dest: /etc/nginx/nginx.conf
+        format: gz
       delegate_to: "{{ inventory_hostname }}"
+    
+
+
+
+
+
     
 
 
