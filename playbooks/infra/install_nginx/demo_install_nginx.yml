@@ -25,5 +25,40 @@
     - name: print the user var
       ansible.builtin.debug:
         var: user.stdout
+
+    - name: Install nginx service
+      when: ansible_os_family == "RedHat"
+      ansible.builtin.package:
+        name: nginx
+        state: present
     
+    - name: Enable nginx service
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Enable nginx service
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Create sample nginx html page 
+      ansible.builtin.copy:
+        content: <html>sample page</html>
+        dest: /var/www/html/index.html
+    
+
+
+
+
+    
+
+
+
+
+
+
+
 
