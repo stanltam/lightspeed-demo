@@ -50,13 +50,16 @@
         state: directory
         mode: 493
 
-    - name: Copy all files from '/root/prepared/certs' directory to '/etc/nginx/' directory
-      ansible.builtin.copy:
+    - name: Sync all files from '/root/prepared/certs' directory to '/etc/nginx/' directory
+      ansible.posix.synchronize:
         src: /root/prepared/certs
         dest: /etc/nginx/certs
-        owner: root
-        group: root
-        mode: 493
+        rsync_opts:
+          - --exclude=.keep
+          - --delete-before
+          - --no-motd
+      delegate_to: server1
+      register: rsync_result
     
 
 
