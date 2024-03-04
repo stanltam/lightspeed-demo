@@ -1,0 +1,55 @@
+---
+- name: Install and configure Cockpit
+  hosts: web-server
+  become: true
+
+  # module_defaults:
+  #   ansible.builtin.service:
+  #     enabled: true
+  #     state: started
+
+  tasks:
+
+
+    - name: Install nginx service
+      when: ansible_os_family == "RedHat"
+      ansible.builtin.package:
+        name: nginx
+        state: present
+    
+    - name: Enable nginx service
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Get Nginx Version
+      ansible.builtin.shell: nginx -v
+      register: nginx_version_result
+    
+    - name: Print nginx version variable
+      ansible.builtin.debug:
+        var: nginx_version_result.stderr_lines
+    
+
+
+
+
+    
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
