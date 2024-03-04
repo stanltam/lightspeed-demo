@@ -44,20 +44,20 @@
         state: started
         enabled: true
 
-    - name: Create directory /etc/nginx/certs if not present
-      ansible.builtin.file:
-        path: /etc/nginx/certs
-        state: directory
-        mode: 493
+    # - name: Create directory /etc/nginx/certs if not present
+    #   ansible.builtin.file:
+    #     path: /etc/nginx/certs
+    #     state: directory
+    #     mode: 493
 
-    - name: Sync all files from '/root/prepared/certs' directory to '/etc/nginx/' directory without delegration
-      ansible.posix.synchronize:
-        src: /root/prepared/certs
-        dest: /etc/nginx/certs
-        recursive: true
-        delete: true
-        rsync_opts:
-          - --exclude=*.default
+    # - name: Sync all files from '/root/prepared/certs' directory to '/etc/nginx/' directory without delegration
+    #   ansible.posix.synchronize:
+    #     src: /root/prepared/certs
+    #     dest: /etc/nginx/certs
+    #     recursive: true
+    #     delete: true
+    #     rsync_opts:
+    #       - --exclude=*.default
     
 
 
@@ -67,24 +67,24 @@
 
 
     
-    - name: Backup nginx config as /etc/nginx/nginx.conf.bak file
-      community.general.archive:
-        path: /etc/nginx/nginx.conf
-        dest: /etc/nginx/nginx.conf.bak
-        format: gz
+    # - name: Backup nginx config as /etc/nginx/nginx.conf.bak file
+    #   community.general.archive:
+    #     path: /etc/nginx/nginx.conf
+    #     dest: /etc/nginx/nginx.conf.bak
+    #     format: gz
 
-    - name: Copy template from '/root/prepared/nginx.conf.ssl' directory to '/etc/nginx/nginx.conf'
-      ansible.builtin.copy:
-        src: /root/prepared/nginx.conf.ssl
-        dest: /etc/nginx/nginx.conf
-        remote_src: true
-      delegate_to: "{{ inventory_hostname }}"
+    # - name: Copy template from '/root/prepared/nginx.conf.ssl' directory to '/etc/nginx/nginx.conf'
+    #   ansible.builtin.copy:
+    #     src: /root/prepared/nginx.conf.ssl
+    #     dest: /etc/nginx/nginx.conf
+    #     remote_src: true
+    #   delegate_to: "{{ inventory_hostname }}"
     
     
-    - name: restart nginx service
-      ansible.builtin.service:
-        name: nginx
-        state: restarted
+    # - name: restart nginx service
+    #   ansible.builtin.service:
+    #     name: nginx
+    #     state: restarted
     
 
     
